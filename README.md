@@ -1,6 +1,6 @@
 # geb-spock-homepage
 
-This little project contains some Geb-Spock test cases which verify that my home page hosted at [balev.eu](https://balev.eu) is up and some contents is present on it.
+This little project contains some Geb-Spock test cases which verify that my home page hosted at [balev.eu](http://balev.eu) is up and some contents is present on it.
 
 The project is built with Gradle but gradle wrapped is included. If you are interested you may download and try it. 
 
