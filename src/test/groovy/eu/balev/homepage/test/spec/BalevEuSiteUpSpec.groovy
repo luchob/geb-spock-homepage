@@ -17,33 +17,37 @@ class BalevEuSiteUpSpec extends GebReportingSpec {
 
 		then:
 		nameSpan.text() == 'Lachezar Balev'
-		titleSpan.text() == 'software engineer'
+		titleSpan.text() == 'Software engineer'
 		regionSpan.text() == 'Sofia'
 		countrySpan.text() == 'Bulgaria'
 	}
-
+	
 	def "browse the site"() {
-
-		given: "When at the home page"
-		to BalevEuHomePage
-
-		when: "Click the work link"
-		navBar.workLink.link.click()
-
-		then: "Verify that the work page opens"
-		at BalevEuWorkPage
-
-		when: "Click the contacts (me@internet) link"
-		navBar.contactLink.link.click()
-
-		then: "Verify tat the contacts page opens"
-		at BalevEuContactPage
-
-		when: "Click the about link"
-		navBar.aboutLink.link.click()
-
-		then: "Verify tat the about page opens"
-		at BalevEuAboutPage
+		
+		given:
+			to BalevEuHomePage
+			
+		when: "Click the nav bars"
+			//work
+			def selector = navBar.workLink.getActiveLinkSelector();
+			navBar.workLink.link.click()
+			waitFor {$(selector);}
+			at BalevEuWorkPage
+			
+			//contact
+			selector = navBar.contactLink.getActiveLinkSelector();
+			navBar.contactLink.link.click()
+			waitFor {$(selector);}
+			at BalevEuContactPage
+			
+			//about
+			selector = navBar.aboutLink.getActiveLinkSelector();
+			navBar.aboutLink.link.click()
+			waitFor {$(selector);}
+			
+		then: 
+			"the last page opened"
+			at BalevEuAboutPage
 	}
 
 	def "check for dead education links"() {

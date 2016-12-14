@@ -2,20 +2,19 @@ import org.apache.tools.ant.taskdefs.condition.Os
 
 ext {
     // The drivers we want to use
-    drivers = ["firefox", "chrome", "phantomJs"]
+    drivers = ["firefox", "chrome"]
 
     ext {
-        groovyVersion = '2.4.5'
-        gebVersion = '0.13.0'
-        seleniumVersion = '2.51.0'
-        chromeDriverVersion = '2.19'
-        phantomJsVersion = '1.9.7'
+        groovyVersion = '2.4.7'
+        gebVersion = '0.9.2'
+        seleniumVersion = '3.0.1'
+        chromeDriverVersion = '2.26'
+		geckoDriverVersion = '0.11.1'
     }
 }
 
 apply plugin: "groovy"
 apply plugin: "eclipse"
-apply from: "gradle/idea.gradle"
 apply from: "gradle/osSpecificDownloads.gradle"
 
 repositories {
@@ -53,30 +52,28 @@ drivers.each { driver ->
         outputs.upToDateWhen { false }  // Always run tests
 
         systemProperty "geb.build.reportsDir", reporting.file("$name/geb")
-        systemProperty "geb.env", driver
+        //systemProperty "geb.env", driver
 
         // If you wanted to set the baseUrl in your build…
         // systemProperty "geb.build.baseUrl", "http://myapp.com"
     }
 }
 
+firefoxTest {
+    dependsOn unzipGeckoDriver
+
+    def geckodriverFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "geckodriver.exe" : "geckodriver"
+    systemProperty "webdriver.gecko.driver", new File(unzipGeckoDriver.outputs.files.singleFile, geckodriverFilename).absolutePath
+}
+
 chromeTest {
     dependsOn unzipChromeDriver
 
     def chromedriverFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "chromedriver.exe" : "chromedriver"
-    systemProperty "webdriver.chrome.driver", new File(unzipChromeDriver.outputs.files.singleFile, chromedriverFilename).absolutePath
-}
-
-phantomJsTest {
-    dependsOn unzipPhantomJs
-
-    def phantomJsFilename = Os.isFamily(Os.FAMILY_WINDOWS) ? "phantomjs.exe" : "bin/phantomjs"
-    systemProperty "phantomjs.binary.path", new File(unzipPhantomJs.outputs.files.singleFile, phantomJsFilename).absolutePath
+    systemProperty "webdriver.gecko.driver", new File(unzipChromeDriver.outputs.files.singleFile, chromedriverFilename).absolutePath
 }
 
 test {
     dependsOn drivers.collect { tasks["${it}Test"] }
     enabled = false
 }
-
-apply from: "gradle/ci.gradle"

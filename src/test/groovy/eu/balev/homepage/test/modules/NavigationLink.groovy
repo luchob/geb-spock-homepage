@@ -4,9 +4,14 @@ import geb.Module;
 
 public class NavigationLink extends Module {
 
-	def linkId
+	String linkId
 
 	static content = {
 		link { $("a", id: linkId) }
+	}
+	
+	public String getActiveLinkSelector()
+	{
+		return "li.active > #" + linkId
 	}
 }

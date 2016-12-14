@@ -4,33 +4,12 @@
  */
 
 
-import org.openqa.selenium.chrome.ChromeDriver
-import org.openqa.selenium.firefox.FirefoxDriver
-import org.openqa.selenium.phantomjs.PhantomJSDriver
-
-waiting { timeout = 2 }
-
-environments {
-
-	// run via gradlew chromeTest
-	// See: http://code.google.com/p/selenium/wiki/ChromeDriver
-	chrome {
-		driver = { new ChromeDriver() }
-	}
-
-	// run via gradlew firefoxTest
-	// See: http://code.google.com/p/selenium/wiki/FirefoxDriver
-	firefox {
-		driver = { new FirefoxDriver() }
-	}
-
-	phantomJs {
-		driver = { new PhantomJSDriver() }
-	}
-
+waiting 
+{ 
+	timeout = 30
+    retryInterval = 1.0 
 }
 
 // To run the tests with all browsers just run /gradlew test
-
 baseUrl = "http://balev.eu"
 reportsDir = new File("build/reports")

@@ -27,7 +27,7 @@ public class BrokenLinkAssert {
 			conn.setConnectTimeout(5000);
 			conn.connect();
 			int code = conn.getResponseCode();
-			Assert.assertEquals("Link " + link, 200, code);
+			Assert.assertTrue("Link " + link, code >= 200 && code <= 399);
 		} catch (IOException e) {
 			Assert.fail(e.getMessage());
 		} finally {
