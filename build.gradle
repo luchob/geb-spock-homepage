@@ -35,11 +35,6 @@ dependencies {
     // Drivers
     testCompile "org.seleniumhq.selenium:selenium-chrome-driver:$seleniumVersion"
     testCompile "org.seleniumhq.selenium:selenium-firefox-driver:$seleniumVersion"
-    // using a custom version of phantomjs driver for now as the original one does not support WebDriver > 2.43.1
-    testCompile("com.codeborne:phantomjsdriver:1.2.1") {
-        // phantomjs driver pulls in a different selenium version
-        transitive = false
-    }
 }
 
 drivers.each { driver ->
